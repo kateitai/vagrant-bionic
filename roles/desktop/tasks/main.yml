@@ -1,0 +1,66 @@
+---
+# tasks file for roles
+- name: install xrdp
+  apt:
+    name: xrdp
+    update_cache: yes
+
+- name: install desktop environment
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+      - xfce4
+      - xfce4-terminal
+
+- name: add jp repo apt key 
+  apt_key:
+    url: https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg
+- name: add jp ppa repo apt key
+  apt_key:
+    url: https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg
+
+- name: Add Ubuntu Japanese LoCo Team's repository(1 / 4)
+  apt_repository:
+    repo: deb http://archive.ubuntulinux.jp/ubuntu bionic main
+- name: Add Ubuntu Japanese LoCo Team's repository(2 / 4)
+  apt_repository:
+    repo: deb-src http://archive.ubuntulinux.jp/ubuntu bionic main
+- name: Add Ubuntu Japanese LoCo Team's repository(3 / 4)
+  apt_repository:
+    repo: deb http://archive.ubuntulinux.jp/ubuntu-ja-non-free bionic multiverse
+- name: Add Ubuntu Japanese LoCo Team's repository(4 / 4)
+  apt_repository:
+    repo: deb-src http://archive.ubuntulinux.jp/ubuntu-ja-non-free bionic multiverse
+
+- name: install japanese remix
+  apt:
+    name: ubuntu-defaults-ja
+    update_cache: yes
+- name: update locale
+  command: update-locale LANG=ja_JP.UTF-8
+
+- name: Add chrome apt key
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+- name: Add Google Chrome apt repo
+  apt_repository:
+    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+    filename: google-chrome
+- name: Install Google Chrome apt package
+  apt:
+    name: google-chrome-stable
+    update_cache: yes
+
+- name: Add code apt key
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+- name: Add code apt repo
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+    filename: vscode
+- name: install code
+  apt:
+    name: code
+    update_cache: yes

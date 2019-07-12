@@ -1,0 +1,4 @@
+- hosts: vagrants
+  become: yes
+  roles:
+    - desktop
